@@ -15,7 +15,6 @@ namespace TestAPI.Controllers
             _context = context;
         }
 
-        // GET: api/Test
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
         {
@@ -34,6 +33,26 @@ namespace TestAPI.Controllers
                 return NotFound();
             }
             return await _context.Managers.Include(o => o.Customers).ToListAsync();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomersNow()
+        {
+            if (_context.Customers == null)
+            {
+                return NotFound();
+            }
+            return await (from customer in _context.Customers select new Customer { Id=customer.Id, Name=customer.Name, Managers=customer.Managers }).ToListAsync();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Manager>>> GetManagersNow()
+        {
+            if (_context.Customers == null)
+            {
+                return NotFound();
+            }
+            return await (from manager in _context.Managers select new Manager { Id=manager.Id,Name=manager.Name,Customers=manager.Customers}).ToListAsync();
         }
     }
 }

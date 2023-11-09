@@ -19,7 +19,7 @@ namespace TestAPI.Models
     {
         public ulong Id { get; set; }
         public string? Name { get; set; }
-        [JsonIgnore]
+        //[JsonIgnore]
         public List<Customer> Customers { get; set; } = new List<Customer>();
     }
 }
